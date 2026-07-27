@@ -2,12 +2,14 @@ import Task from "../models/task.model";
 import { Request, Response } from "express"
 
 import paginationHelper from "../../../helpers/pagination"
+import searchHelper from "../../../helpers/search";
 
 export const index = async (req: Request, res: Response) => {
   // find
   interface Find {
-    deleted: boolean;
-    status?: string;
+    deleted: boolean,
+    status?: string,
+    title?: RegExp
   }
 
   const find: Find = {
@@ -18,6 +20,14 @@ export const index = async (req: Request, res: Response) => {
     find.status = req.query.status.toString();
   }
   // end find
+
+  // Search
+  const objectSearch = searchHelper(req.query);
+
+  if (req.query.keyword) {
+    find.title = objectSearch.regex;
+  }
+  // End Search
 
   // Pagination
   const countTasks = await Task.countDocuments(find);
