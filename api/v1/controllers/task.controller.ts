@@ -230,3 +230,23 @@ export const edit = async (req: Request, res: Response) => {
 
   }
 }
+
+// [DELETE] /api/v1/tasks/delete/:id
+export const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const id: string = String(req.params.id);
+
+    await Task.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() });
+
+    return res.status(200).json({
+      code: 200,
+      message: MESSAGE.DELETE_SUCCESS
+    })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      message: MESSAGE.INTERNAL_SERVER_ERROR
+    })
+  }
+}
