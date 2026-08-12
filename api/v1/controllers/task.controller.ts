@@ -209,3 +209,24 @@ export const create = async (req: Request, res: Response) => {
     })
   }
 }
+
+// [PATCH] /api/v1/tasks/edit/:id
+export const edit = async (req: Request, res: Response) => {
+  try {
+    const id: string = String(req.params.id);
+
+    await Task.updateOne({ _id: id }, req.body);
+    return res.status(200).json({
+      code: 200,
+      message: MESSAGE.UPDATE_SUCCESS
+    })
+  } catch (error) {
+    console.error(error)
+
+    return res.status(500).json({
+      code: 500,
+      message: MESSAGE.INTERNAL_SERVER_ERROR
+    })
+
+  }
+}

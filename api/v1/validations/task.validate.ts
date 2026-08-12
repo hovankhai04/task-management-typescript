@@ -36,16 +36,22 @@ export const changeMulti = (req: Request, res: Response, next: NextFunction) => 
 
   // Xử lý ObjectId
   const invalidId = ids.some(
-    (id: string) => !mongoose.Types.ObjectId.isValid(id)
+    (id) =>
+      typeof id !== "string" ||
+      !mongoose.Types.ObjectId.isValid(id)
   );
-
   if (invalidId) {
 
     return res.status(400).json({
       code: 400,
       message: "ObjectId không hợp lệ"
     });
-
+  }
+  if (ids.length > 100) {
+    return res.status(400).json({
+      code: 400,
+      message: "Chỉ được xử lý tối đa 100 task."
+    });
   }
 
   next();
