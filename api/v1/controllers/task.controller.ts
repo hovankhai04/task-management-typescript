@@ -100,7 +100,7 @@ export const changeStatus = async (req: Request, res: Response) => {
     const id = String(req.params.id);
     const status = req.body.status as TaskStatus;
 
-    const result = await Task.updateOne({ _id: id }, { status: status });
+    const result = await Task.updateOne({ _id: id, deleted: false }, { status: status });
     if (result.matchedCount === 0) {
       return res.status(404).json({
         code: 404,

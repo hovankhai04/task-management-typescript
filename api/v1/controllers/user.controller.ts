@@ -86,24 +86,10 @@ export const login = async (req: Request, res: Response) => {
 // [GET] /api/v1/users/detail
 export const detail = async (req: Request, res: Response) => {
   try {
-    const id: string = String(req.params.id);
-
-    const user = await User.findOne({
-      _id: id,
-      deleted: false
-    }).select(' -password -token ');
-
-    if (!user) {
-      return res.status(404).json({
-        code: 404,
-        message: MESSAGE.NOT_FOUND
-      });
-    }
-
     return res.status(200).json({
       code: 200,
       message: "Xem trang chi tiết tài khoản thành công!",
-      user: user
+      user: req["user"]
     })
   } catch (error) {
     console.error(error)
