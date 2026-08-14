@@ -4,5 +4,6 @@
     "module": "commonjs", // là kiểu tiêu chuẩn được sử dụng trong Nodejs để làm việc với các module
     "removeComments": true, // xoá comment khi biên dịch sang js
     "esModuleInterop": true, // Dùng được từ khoá import thay cho require
+    "outDir": "dist", // định dạng output
   }
 }
